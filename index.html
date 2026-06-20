@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knüpfwerk — Founders in Dortmund #2 · Bits & Pretzels</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --blau:#003696; --blau-d:#002a73; --creme:#fdf9e7; --rot:#d4032b; --gelb:#f5d80f;
+    --tinte:#13203a; --grau:#5b6478; --linie:#e7e1cc; --weiss:#fff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--tinte); background:var(--creme); line-height:1.6; -webkit-font-smoothing:antialiased}
+  a{color:inherit; text-decoration:none}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px}
+  .btn{display:inline-flex; align-items:center; gap:8px; border:0; cursor:pointer; font-family:inherit;
+    font-weight:800; font-size:15px; padding:13px 22px; border-radius:12px; transition:.15s}
+  .btn:active{transform:scale(.98)}
+  .btn-gelb{background:var(--gelb); color:var(--blau-d)}
+  .btn-gelb:hover{filter:brightness(1.05)}
+  .btn-blau{background:var(--blau); color:#fff}
+  .btn-ghost{background:transparent; color:var(--blau); border:1.5px solid var(--linie)}
+  .pill{display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:700; padding:7px 13px; border-radius:999px}
+
+  /* NAV */
+  nav{position:sticky; top:0; z-index:50; background:rgba(253,249,231,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--linie)}
+  nav .wrap{display:flex; align-items:center; gap:18px; height:64px}
+  .logo{display:flex; align-items:center; gap:10px; font-weight:900; color:var(--blau); font-size:18px; letter-spacing:-.4px}
+  .logo .b{width:34px; height:34px; border-radius:10px; background:var(--blau); display:grid; place-items:center; color:var(--gelb); font-size:19px}
+  nav .links{display:flex; gap:22px; margin-left:14px; font-weight:600; font-size:14.5px; color:var(--grau)}
+  nav .links a:hover{color:var(--blau)}
+  nav .right{margin-left:auto}
+  @media(max-width:780px){ nav .links{display:none} }
+
+  /* HERO */
+  .hero{position:relative; overflow:hidden; background:linear-gradient(165deg,var(--blau),var(--blau-d) 75%); color:#fff}
+  .hero .g1{position:absolute; top:-120px; right:-80px; width:420px; height:420px; background:radial-gradient(circle,var(--gelb),transparent 62%); opacity:.30}
+  .hero .g2{position:absolute; bottom:-160px; left:-100px; width:420px; height:420px; background:radial-gradient(circle,var(--rot),transparent 62%); opacity:.28}
+  .hero .wrap{position:relative; display:grid; grid-template-columns:1.15fr .85fr; gap:40px; align-items:center; padding:64px 24px 72px}
+  .hero .ev{display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.14); padding:8px 14px; border-radius:999px; font-size:13.5px; font-weight:700; margin-bottom:20px}
+  .hero h1{font-size:46px; line-height:1.08; letter-spacing:-1.2px; font-weight:900; margin-bottom:16px}
+  .hero h1 .hl{color:var(--gelb)}
+  .hero .sub{font-size:18px; color:rgba(255,255,255,.86); max-width:520px; margin-bottom:26px}
+  .hero .cta{display:flex; gap:12px; flex-wrap:wrap}
+  .hero .micro{margin-top:18px; font-size:13px; color:rgba(255,255,255,.7)}
+  @media(max-width:860px){ .hero .wrap{grid-template-columns:1fr; gap:30px} .hero h1{font-size:34px} }
+
+  /* PHONE */
+  .device{justify-self:center; width:300px; height:600px; background:#0b1730; border-radius:42px; padding:12px; box-shadow:0 30px 70px rgba(0,20,70,.45); position:relative}
+  .screenwin{position:relative; width:100%; height:100%; background:var(--weiss); border-radius:32px; overflow:hidden; cursor:pointer}
+  .pnotch{position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:22px; background:#0b1730; border-radius:0 0 14px 14px; z-index:5}
+  .pscreen{position:absolute; inset:0; opacity:0; transition:opacity .45s ease; padding:40px 16px 16px; overflow:hidden}
+  .pscreen.on{opacity:1}
+  .ptop{font-size:12px; font-weight:800; color:var(--blau); text-align:center; margin-bottom:8px}
+  .pcard{background:linear-gradient(160deg,var(--blau),var(--blau-d)); color:#fff; border-radius:18px; padding:16px; position:relative; overflow:hidden}
+  .pcard .st{position:absolute; top:0; left:0; right:0; height:6px; background:linear-gradient(90deg,var(--gelb),var(--rot))}
+  .av{width:40px; height:40px; border-radius:50%; display:grid; place-items:center; font-weight:800; color:#fff}
+  .prow{display:flex; align-items:center; gap:10px}
+  .qrb{background:#fff; border-radius:13px; padding:11px; width:140px; margin:12px auto 4px; display:grid; place-items:center}
+  #pqr img,#pqr canvas{display:block}
+  .ptag{display:inline-block; font-size:10.5px; font-weight:700; padding:4px 9px; border-radius:999px; margin:3px 3px 0 0}
+  .tg-b{background:rgba(0,54,150,.10); color:var(--blau)} .tg-r{background:rgba(212,3,43,.10); color:var(--rot)} .tg-y{background:rgba(245,216,15,.3); color:#7a5b00} .tg-g{background:rgba(31,157,107,.14); color:#1f9d6b}
+  .pbox{background:#fff; border:1px solid var(--linie); border-radius:13px; padding:11px; margin-top:9px; font-size:12px}
+  .pfield{border:1.4px solid var(--linie); border-radius:9px; padding:8px 10px; font-size:12px; margin-top:6px; background:#fffdf6; color:var(--tinte)}
+  .deepm{background:linear-gradient(135deg,rgba(245,216,15,.22),rgba(0,54,150,.06)); border:1px solid #efe6bf; border-radius:13px; padding:11px; margin-top:9px}
+  .ail{display:inline-flex; align-items:center; gap:5px; font-size:9.5px; font-weight:800; color:var(--blau); background:#fff; padding:3px 8px; border-radius:999px; border:1px solid var(--linie)}
+  .pbtn{display:block; text-align:center; background:var(--gelb); color:var(--blau-d); font-weight:800; font-size:12px; padding:9px; border-radius:9px; margin-top:9px; border:0; width:100%; cursor:pointer; font-family:inherit}
+  .pdots{position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:6}
+  .pdots i{width:7px; height:7px; border-radius:50%; background:rgba(0,54,150,.2); transition:.2s}
+  .pdots i.on{background:var(--blau); width:18px; border-radius:4px}
+  .phint{text-align:center; color:rgba(255,255,255,.62); font-size:12px; margin-top:12px}
+
+  /* SECTIONS */
+  section{padding:72px 0}
+  .eyebrow{color:var(--rot); font-weight:800; font-size:13px; letter-spacing:1.5px; text-transform:uppercase}
+  h2{font-size:33px; letter-spacing:-.7px; font-weight:900; margin:8px 0 12px; line-height:1.12}
+  .lead{font-size:17px; color:var(--grau); max-width:620px}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:36px}
+  .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:36px}
+  @media(max-width:860px){ .grid3,.grid4{grid-template-columns:1fr} }
+  .card{background:#fff; border:1px solid var(--linie); border-radius:18px; padding:24px}
+  .card .ic{width:46px; height:46px; border-radius:13px; display:grid; place-items:center; font-size:22px; margin-bottom:14px}
+  .card h3{font-size:18px; font-weight:800; margin-bottom:6px}
+  .card p{color:var(--grau); font-size:14.5px}
+
+  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:38px; counter-reset:s}
+  @media(max-width:860px){ .steps{grid-template-columns:1fr 1fr} }
+  @media(max-width:520px){ .steps{grid-template-columns:1fr} }
+  .step{position:relative; padding-top:8px}
+  .step .n{width:38px; height:38px; border-radius:11px; background:var(--blau); color:var(--gelb); font-weight:900; display:grid; place-items:center; margin-bottom:12px}
+  .step h3{font-size:16.5px; font-weight:800; margin-bottom:5px}
+  .step p{font-size:14px; color:var(--grau)}
+
+  .band{background:var(--blau); color:#fff; border-radius:26px; padding:48px; position:relative; overflow:hidden}
+  .band .g{position:absolute; top:-80px; right:-60px; width:300px; height:300px; background:radial-gradient(circle,var(--gelb),transparent 62%); opacity:.22}
+  .band h2{font-size:30px}
+  .band .lead{color:rgba(255,255,255,.85)}
+
+  .event{display:grid; grid-template-columns:1.2fr .8fr; gap:30px; align-items:center; background:#fff; border:1px solid var(--linie); border-radius:26px; padding:40px; margin-top:36px}
+  @media(max-width:860px){ .event{grid-template-columns:1fr} }
+  .event .meta{display:flex; flex-direction:column; gap:14px}
+  .event .m{display:flex; align-items:center; gap:12px; font-size:15.5px; font-weight:600}
+  .event .m .e{width:40px; height:40px; border-radius:11px; background:var(--creme); display:grid; place-items:center; font-size:19px; border:1px solid var(--linie)}
+  .hosts{display:flex; gap:10px; margin-top:8px}
+  .host{display:flex; align-items:center; gap:10px; background:var(--creme); border:1px solid var(--linie); border-radius:14px; padding:10px 14px; font-weight:700; font-size:14px}
+
+  footer{background:var(--blau-d); color:rgba(255,255,255,.8); padding:46px 0 40px; margin-top:20px}
+  footer .wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+  footer .logo{color:#fff}  footer .logo .b{background:var(--gelb); color:var(--blau-d)}
+  footer .fr{margin-left:auto; font-size:13px}
+  .proto-note{display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:700; color:var(--blau); background:#fff; border:1px solid var(--linie); padding:6px 12px; border-radius:999px; margin-top:14px}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="logo" href="#top"><span class="b">🥨</span> Knüpfwerk</a>
+  <div class="links">
+    <a href="#idee">Die Idee</a>
+    <a href="#sogehts">So funktioniert's</a>
+    <a href="#event">Das Event</a>
+  </div>
+  <div class="right"><a class="btn btn-blau" href="https://luma.com/kuue2v3l" target="_blank" rel="noopener">Dabei sein</a></div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="g1"></div><div class="g2"></div>
+  <div class="wrap">
+    <div>
+      <span class="ev">📍 Founders in Dortmund #2 · 16. Juli 2026</span>
+      <h1>Geh nach Hause mit einem Kontakt, der dich <span class="hl">wirklich weiterbringt.</span></h1>
+      <p class="sub">Networking-Events sind voller Chancen — und am nächsten Tag ist die Hälfte vergessen. Knüpfwerk hält fest, <em>warum</em> ihr euch verbunden habt, und sorgt mit einer KI dafür, dass aus dem Gespräch ein nächster Schritt wird.</p>
+      <div class="cta">
+        <a class="btn btn-gelb" href="https://luma.com/kuue2v3l" target="_blank" rel="noopener">Platz sichern →</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" href="#sogehts">So funktioniert's</a>
+      </div>
+      <p class="micro">Eine von 26 Städten in 12 europäischen Ländern · gebaut <em>mit</em> der Community, nicht nur für sie.</p>
+    </div>
+
+    <div>
+      <div class="device">
+        <div class="pnotch"></div>
+        <div class="screenwin" id="screenwin" onclick="nextScreen()">
+          <!-- Screen 1: Karte -->
+          <div class="pscreen on" data-s="0">
+            <div class="ptop">Meine Visitenkarte</div>
+            <div class="pcard">
+              <div class="st"></div>
+              <div class="prow"><div class="av" style="background:var(--gelb);color:var(--blau-d)">A</div>
+                <div><b style="font-size:15px">Anna Mreyen</b><div style="opacity:.82;font-size:12px">Gründerin · FinTech</div></div></div>
+              <div class="qrb"><div id="pqr"></div></div>
+              <div style="text-align:center;opacity:.85;font-size:11px">Scannen lassen — beide bestätigen.</div>
+            </div>
+            <div style="margin-top:10px">
+              <span class="ptag tg-r">🔎 sucht: Pre-Seed</span>
+              <span class="ptag tg-b">🤝 bietet: B2B-Sales</span>
+            </div>
+          </div>
+          <!-- Screen 2: Scan + Notiz -->
+          <div class="pscreen" data-s="1">
+            <div class="ptop">Verbindung + Ziel</div>
+            <div class="pbox" style="border-color:#1f9d6b">
+              <div class="prow"><div class="av" style="background:var(--blau);width:34px;height:34px;font-size:13px">TB</div>
+                <div style="flex:1"><b>Tom Berger</b><div style="color:var(--grau)">Angel Investor</div></div>
+                <span class="ptag tg-g">verbunden ✓</span></div>
+            </div>
+            <div style="font-weight:800;font-size:13px;margin-top:11px">Warum diese Verbindung?</div>
+            <div class="pfield">Ziel: Pre-Seed-Runde besprechen</div>
+            <div class="pfield" style="height:46px">Tom investiert in FinTech, will mein Deck sehen.</div>
+            <div style="margin-top:7px"><span class="ptag tg-b">#Finanzierung</span><span class="ptag tg-y">#FollowUp</span></div>
+          </div>
+          <!-- Screen 3: Deepflow -->
+          <div class="pscreen" data-s="2">
+            <div class="ptop">Heute · dein nächster Schritt</div>
+            <div class="pbox">
+              <div style="font-weight:800;font-size:12.5px">✅ Pitch-Deck an Tom senden</div>
+              <div style="color:var(--grau);margin-top:3px">Wenn-Dann: morgen 10:00 · Erinnerung per E-Mail</div>
+            </div>
+            <div class="deepm">
+              <span class="ail">✨ KI-Entwurf — prüfen</span>
+              <div class="pbox" style="font-style:italic;margin-top:7px;background:#fff">„Hi Tom, schön war's in Dortmund! Anbei mein Deck zur Pre-Seed-Runde. 20-Min-Call nächste Woche?"</div>
+              <button class="pbtn" onclick="event.stopPropagation()">✉️ Per Mail senden — du sendest selbst</button>
+            </div>
+          </div>
+          <div class="pdots"><i class="on"></i><i></i><i></i></div>
+        </div>
+      </div>
+      <p class="phint">👆 Tippen zum Durchklicken</p>
+    </div>
+  </div>
+</header>
+
+<section id="idee">
+  <div class="wrap">
+    <span class="eyebrow">Das Problem</span>
+    <h2>Gute Gespräche — und dann?</h2>
+    <p class="lead">Es fehlt nicht an Geld, Ideen oder Förderung. Es fehlt die Nacharbeit. Genau da setzt Knüpfwerk an.</p>
+    <div class="grid3">
+      <div class="card"><div class="ic" style="background:rgba(212,3,43,.1)">🎲</div><h3>Treffen ist Glückssache</h3><p>Ob du die richtige Person triffst, hängt vom Zufall ab — wer zur richtigen Zeit am richtigen Tisch steht.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(245,216,15,.35)">💨</div><h3>Infos verpuffen</h3><p>Nach dem Event erinnert man sich an einen Bruchteil. Das Wertvolle aus dem Gespräch geht verloren.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(0,54,150,.1)">🗂️</div><h3>Kontakte verlieren sich</h3><p>Ein Stapel Visitenkarten und Mails — Potenzial, das nie gehoben wird, weil die Nachverfolgung fehlt.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="sogehts" style="background:#fff">
+  <div class="wrap">
+    <span class="eyebrow">So funktioniert's</span>
+    <h2>Aus dem Erstkontakt wird der zweite Schritt</h2>
+    <p class="lead">Vier einfache Schritte — der Rest läuft im Hintergrund.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>QR scannen</h3><p>Zwei Karten, ein Scan, beide bestätigen — ihr seid verbunden.</p></div>
+      <div class="step"><div class="n">2</div><h3>Ziel festhalten</h3><p>Eine kurze Notiz: Warum diese Verbindung? Der Zündfunke gegen das Vergessen.</p></div>
+      <div class="step"><div class="n">3</div><h3>KI bereitet vor</h3><p>Deepflow fasst zusammen, schlägt den nächsten Schritt vor und schreibt den Entwurf.</p></div>
+      <div class="step"><div class="n">4</div><h3>Dranbleiben</h3><p>Zur richtigen Zeit eine Erinnerung — du sendest selbst, mit einem Klick.</p></div>
+    </div>
+    <span class="proto-note">🖱️ Der Prototyp oben ist klickbar — probier's aus.</span>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="band">
+      <div class="g"></div>
+      <span class="eyebrow" style="color:var(--gelb)">Gemeinsam bauen</span>
+      <h2>Mit wem würdest du gerne an einem Tisch sitzen?</h2>
+      <p class="lead">Welchen Gründer, Investor oder Experten wolltest du schon lange mal sprechen? Wir bringen genau diese Menschen an dem Abend zusammen — und sorgen dafür, dass der Kontakt danach etwas bringt.</p>
+      <div style="margin-top:24px"><a class="btn btn-gelb" href="https://luma.com/kuue2v3l" target="_blank" rel="noopener">Idee einbringen & dabei sein →</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="fuerwen" style="background:#fff">
+  <div class="wrap">
+    <span class="eyebrow">Für wen</span>
+    <h2>Damit jeder Kontakt zählt</h2>
+    <div class="grid4">
+      <div class="card"><div class="ic" style="background:rgba(212,3,43,.1)">🚀</div><h3>Gründer:innen</h3><p>Finanzierung, Mitstreiter, erste Kund:innen — gezielt statt zufällig.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(31,157,107,.14)">💶</div><h3>Investor:innen</h3><p>Qualitativer Deal-Flow mit Kontext statt Visitenkarten-Stapel.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(245,216,15,.35)">🧭</div><h3>Mentor:innen</h3><p>Wirkung zeigen, spannende Projekte finden, nachvollziehbar dranbleiben.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(0,54,150,.1)">🤝</div><h3>Community</h3><p>Anschluss, Lernen, Zugehörigkeit — lokal in Dortmund und europaweit.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="event">
+  <div class="wrap">
+    <span class="eyebrow">Das Event</span>
+    <h2>Founders in Dortmund: Connect. Build. Grow. #2</h2>
+    <p class="lead">Chief-Table-Format — echte Gespräche in kleinen, fokussierten Runden. Keine Bühne, keine langen Panels. Nur Substanz.</p>
+    <div class="event">
+      <div class="meta">
+        <div class="m"><span class="e">📅</span> 16. Juli 2026, abends</div>
+        <div class="m"><span class="e">📍</span> Dortmund (Location wird gemeinsam gewählt)</div>
+        <div class="m"><span class="e">🍻</span> Bits & Pretzels Communities · Roundtables</div>
+        <div class="hosts">
+          <div class="host"><span class="av" style="background:var(--rot);width:28px;height:28px;font-size:12px">DZ</span> Dzenita Zulji</div>
+          <div class="host"><span class="av" style="background:var(--blau);width:28px;height:28px;font-size:12px">MR</span> Mariya Rajendran</div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:15px;color:var(--grau);margin-bottom:14px">Sei Teil eines Abends, der noch lange nach dem Event weiterwirkt.</div>
+        <a class="btn btn-blau" href="https://luma.com/kuue2v3l" target="_blank" rel="noopener" style="font-size:16px;padding:15px 26px">Jetzt anmelden auf Luma →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <a class="logo" href="#top"><span class="b">🥨</span> Knüpfwerk</a>
+  <span style="font-size:13px;opacity:.8">Arbeitstitel · gebaut mit der Bits-&-Pretzels-Community Dortmund</span>
+  <span class="fr">© 2026 · Connect. Build. Grow.</span>
+</div></footer>
+
+<script>
+  (function(){
+    try{ new QRCode(document.getElementById('pqr'),{text:'https://luma.com/kuue2v3l',width:118,height:118,colorDark:'#003696',colorLight:'#ffffff'}); }
+    catch(e){ document.getElementById('pqr').innerHTML='<div style="width:118px;height:118px;background:repeating-linear-gradient(45deg,#003696 0 9px,#fff 9px 18px);border-radius:7px"></div>'; }
+  })();
+  var cur=0; var total=3;
+  function show(i){
+    cur=(i+total)%total;
+    document.querySelectorAll('.pscreen').forEach(function(s){ s.classList.toggle('on', Number(s.dataset.s)===cur); });
+    document.querySelectorAll('.pdots i').forEach(function(d,k){ d.classList.toggle('on',k===cur); });
+  }
+  function nextScreen(){ show(cur+1); resetAuto(); }
+  var auto=setInterval(function(){ show(cur+1); },3800);
+  function resetAuto(){ clearInterval(auto); auto=setInterval(function(){ show(cur+1); },3800); }
+</script>
+</body>
+</html>
